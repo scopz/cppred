@@ -5,6 +5,8 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <algorithm>
+#include <sstream>
 #include <vector>
 #endif
 

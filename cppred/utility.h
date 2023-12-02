@@ -8,6 +8,7 @@
 #include <limits>
 #include <iostream>
 #include <cstring>
+#include <climits>
 #endif
 
 #define BITMAP(x) (bits_from_u32<0x##x>::value)
