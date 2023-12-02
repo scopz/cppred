@@ -1,25 +1,35 @@
-#!/bin/sh
+#!/bin/bash
 
-cpu_count=$(nproc)
+if ! [ -f "/.dockerenv" ] && ! [ -f "/.dockerinit" ]; then
+  echo "# Starting docker build"
+  docker run -it --rm -v $PWD:/src pkred-image
 
-# Build FreeImage
-cd FreeImage
-make -j $cpu_count
-cd ..
+else
+  cpu_count=$(nproc)
 
-# Build code generator
-cd code_generation
-cmake .
-make -j $cpu_count
-cd ..
+  # Build FreeImage
+  (
+    cd FreeImage || exit
+    make -j "$cpu_count"
+  )
 
-# Generate static resources
-cd CodeGeneration
-../code_generation/code_generation
-cd ..
+  # Build code generator
+  (
+    cd code_generation || exit
+    cmake .
+    make -j "$cpu_count"
+  )
 
-# Build game
-cd cppred
-cmake .
-make -j $cpu_count
-cd ..
+  # Generate static resources
+  (
+    cd CodeGeneration || exit
+    ../code_generation/code_generation
+  )
+
+  # Build game
+  (
+    cd cppred || exit
+    cmake .
+    make -j $cpu_count
+  )
+fi
