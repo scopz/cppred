@@ -17,11 +17,23 @@ ifeq ($(OS), windows32)
     MAKEFILE = mingw
 endif
 
-default:
-	$(MAKE) -f Makefile.$(MAKEFILE) 
+TARGET = libfreeimage.a
 
-all:
-	$(MAKE) -f Makefile.$(MAKEFILE) all 
+SRC_DIR = Source
+OBJ_DIR = Source
+
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+
+default: $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+	$(MAKE) -f Makefile.$(MAKEFILE)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(MAKE) -f Makefile.$(MAKEFILE)
+
+all: $(TARGET)
 
 dist:
 	$(MAKE) -f Makefile.$(MAKEFILE) dist 
