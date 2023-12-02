@@ -44,3 +44,14 @@ CodeGeneration/output/*.cpp
 CodeGeneration/output/*.csv
 tools/pokered/
 /cppred/buildShowingIncludes.bat
+
+# Unix builds
+Dist/
+*.so
+*.a
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+cppred/Makefile
+code_generation/Makefile
+code_generation/code_generation
